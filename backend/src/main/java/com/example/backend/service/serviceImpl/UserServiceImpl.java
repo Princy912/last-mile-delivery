@@ -1,7 +1,9 @@
-package com.example.backend.service;
+package com.example.backend.service.serviceImpl;
 
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
+import com.example.backend.service.UserService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,17 +36,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(Long id, User user) {
 
-      User existingUser = userRepository.findById(id)
-              .orElseThrow(() -> new RuntimeException("User not found"));
+    User existingUser = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-      existingUser.setName(user.getName());
-      existingUser.setEmail(user.getEmail());
-      existingUser.setPhone(user.getPhone());
-      existingUser.setPassword(user.getPassword());
-      existingUser.setRole(user.getRole());
-      existingUser.setIsActive(user.getIsActive());
+    existingUser.setName(user.getName());
+    existingUser.setEmail(user.getEmail());
+    existingUser.setPhone(user.getPhone());
+    existingUser.setPassword(user.getPassword());
+    existingUser.setRole(user.getRole());
+    existingUser.setIsActive(user.getIsActive());
 
-      return userRepository.save(existingUser);
+    return userRepository.save(existingUser);
     }
 
     @Override
