@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.PODRecordDTO;
 import com.example.backend.entity.PODRecord;
 import com.example.backend.service.PODRecordService;
 import org.springframework.http.HttpStatus;
@@ -19,32 +20,32 @@ public class PODRecordController {
     }
 
     @PostMapping
-    public ResponseEntity<PODRecord> createPODRecord(@RequestBody PODRecord podRecord) {
+    public ResponseEntity<PODRecordDTO> createPODRecord(@RequestBody PODRecord podRecord) {
         return new ResponseEntity<>(
-                podRecordService.createPODRecord(podRecord),
+                podRecordService.create(podRecord),
                 HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<PODRecord>> getAllPODRecords() {
-        return ResponseEntity.ok(podRecordService.getAllPODRecords());
+    public ResponseEntity<List<PODRecordDTO>> getAllPODRecords() {
+        return ResponseEntity.ok(podRecordService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PODRecord> getPODRecordById(@PathVariable Long id) {
-        return ResponseEntity.ok(podRecordService.getPODRecordById(id));
+    public ResponseEntity<PODRecordDTO> getPODRecordById(@PathVariable Long id) {
+        return ResponseEntity.ok(podRecordService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PODRecord> updatePODRecord(@PathVariable Long id,
-                                                     @RequestBody PODRecord podRecord) {
+    public ResponseEntity<PODRecordDTO> updatePODRecord(@PathVariable Long id,
+                                                        @RequestBody PODRecord podRecord) {
         return ResponseEntity.ok(
-                podRecordService.updatePODRecord(id, podRecord));
+                podRecordService.update(id, podRecord));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePODRecord(@PathVariable Long id) {
-        podRecordService.deletePODRecord(id);
+        podRecordService.delete(id);
         return ResponseEntity.ok("POD Record deleted successfully");
     }
 }

@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.backend.dto.DeliveryOrderDTO;
 import com.example.backend.entity.DeliveryAgent;
 import com.example.backend.entity.DeliveryOrder;
 import com.example.backend.entity.User;
+import com.example.backend.mapper.DeliveryOrderMapper;
 import com.example.backend.repository.DeliveryAgentRepository;
 import com.example.backend.repository.DeliveryOrderRepository;
 import com.example.backend.repository.UserRepository;
@@ -31,7 +33,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     }
 
     @Override
-    public DeliveryOrder createDeliveryOrder(DeliveryOrder deliveryOrder) {
+    public DeliveryOrderDTO create(DeliveryOrder deliveryOrder) {
 
         User customer = userRepository.findById(deliveryOrder.getCustomer().getId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
@@ -43,22 +45,27 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
         deliveryOrder.setDeliveryAgent(agent);
         deliveryOrder.setCreatedAt(LocalDateTime.now());
 
-        return deliveryOrderRepository.save(deliveryOrder);
+        DeliveryOrder savedOrder = deliveryOrderRepository.save(deliveryOrder);
+        return DeliveryOrderMapper.toDTO(savedOrder);
     }
 
     @Override
-    public List<DeliveryOrder> getAllDeliveryOrders() {
-        return deliveryOrderRepository.findAll();
+    public List<DeliveryOrderDTO> getAll() {
+        return deliveryOrderRepository.findAll()
+                .stream()
+                .map(DeliveryOrderMapper::toDTO)
+                .toList();
     }
 
     @Override
-    public DeliveryOrder getDeliveryOrderById(Long id) {
-        return deliveryOrderRepository.findById(id)
+    public DeliveryOrderDTO getById(Long id) {
+        DeliveryOrder order = deliveryOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+        return DeliveryOrderMapper.toDTO(order);
     }
 
     @Override
-    public DeliveryOrder updateDeliveryOrder(Long id, DeliveryOrder deliveryOrder) {
+    public DeliveryOrderDTO update(Long id, DeliveryOrder deliveryOrder) {
 
         DeliveryOrder existingOrder = deliveryOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
@@ -79,11 +86,12 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
         existingOrder.setEstimatedDeliveryTime(deliveryOrder.getEstimatedDeliveryTime());
         existingOrder.setActualDeliveryTime(deliveryOrder.getActualDeliveryTime());
 
-        return deliveryOrderRepository.save(existingOrder);
+        DeliveryOrder updatedOrder = deliveryOrderRepository.save(existingOrder);
+        return DeliveryOrderMapper.toDTO(updatedOrder);
     }
 
     @Override
-    public void deleteDeliveryOrder(Long id) {
+    public void delete(Long id) {
 
         DeliveryOrder order = deliveryOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Order not found"));

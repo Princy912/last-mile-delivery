@@ -2,17 +2,18 @@ package com.example.backend.service;
 
 import java.util.List;
 
+import com.example.backend.dto.DeliveryAgentDTO;
 import com.example.backend.entity.DeliveryAgent;
 
 public interface DeliveryAgentService {
 
-    DeliveryAgent createDeliveryAgent(DeliveryAgent deliveryAgent);
+    DeliveryAgentDTO create(DeliveryAgent deliveryAgent);
 
-    List<DeliveryAgent> getAllDeliveryAgents();
+    List<DeliveryAgentDTO> getAll();
 
-    DeliveryAgent getDeliveryAgentById(Long id);
+    DeliveryAgentDTO getById(Long id);
 
-    DeliveryAgent updateDeliveryAgent(Long id, DeliveryAgent deliveryAgent);
+    DeliveryAgentDTO update(Long id, DeliveryAgent deliveryAgent);
 
-    void deleteDeliveryAgent(Long id);
+    void delete(Long id);
 }

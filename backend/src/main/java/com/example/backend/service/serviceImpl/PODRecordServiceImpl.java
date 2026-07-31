@@ -1,7 +1,9 @@
 package com.example.backend.service.serviceImpl;
 
+import com.example.backend.dto.PODRecordDTO;
 import com.example.backend.entity.DeliveryOrder;
 import com.example.backend.entity.PODRecord;
+import com.example.backend.mapper.PODRecordMapper;
 import com.example.backend.repository.DeliveryOrderRepository;
 import com.example.backend.repository.PODRecordRepository;
 import com.example.backend.service.PODRecordService;
@@ -23,7 +25,7 @@ public class PODRecordServiceImpl implements PODRecordService {
     }
 
     @Override
-    public PODRecord createPODRecord(PODRecord podRecord) {
+    public PODRecordDTO create(PODRecord podRecord) {
 
         DeliveryOrder order = deliveryOrderRepository.findById(
                 podRecord.getDeliveryOrder().getId())
@@ -32,24 +34,30 @@ public class PODRecordServiceImpl implements PODRecordService {
         podRecord.setDeliveryOrder(order);
         podRecord.setCapturedAt(LocalDateTime.now());
 
-        return podRecordRepository.save(podRecord);
+        PODRecord savedPOD = podRecordRepository.save(podRecord);
+        return PODRecordMapper.toDTO(savedPOD);
     }
 
     @Override
-    public List<PODRecord> getAllPODRecords() {
-        return podRecordRepository.findAll();
+    public List<PODRecordDTO> getAll() {
+        return podRecordRepository.findAll()
+                .stream()
+                .map(PODRecordMapper::toDTO)
+                .toList();
     }
 
     @Override
-    public PODRecord getPODRecordById(Long id) {
-        return podRecordRepository.findById(id)
+    public PODRecordDTO getById(Long id) {
+        PODRecord podRecord = podRecordRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("POD Record not found"));
+        return PODRecordMapper.toDTO(podRecord);
     }
 
     @Override
-    public PODRecord updatePODRecord(Long id, PODRecord podRecord) {
+    public PODRecordDTO update(Long id, PODRecord podRecord) {
 
-        PODRecord existing = getPODRecordById(id);
+        PODRecord existing = podRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("POD Record not found"));
 
         DeliveryOrder order = deliveryOrderRepository.findById(
                 podRecord.getDeliveryOrder().getId())
@@ -59,11 +67,12 @@ public class PODRecordServiceImpl implements PODRecordService {
         existing.setPodType(podRecord.getPodType());
         existing.setPodData(podRecord.getPodData());
 
-        return podRecordRepository.save(existing);
+        PODRecord updatedPOD = podRecordRepository.save(existing);
+        return PODRecordMapper.toDTO(updatedPOD);
     }
 
     @Override
-    public void deletePODRecord(Long id) {
+    public void delete(Long id) {
         podRecordRepository.deleteById(id);
     }
 }

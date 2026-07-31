@@ -1,18 +1,19 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.PODRecordDTO;
 import com.example.backend.entity.PODRecord;
 
 import java.util.List;
 
 public interface PODRecordService {
 
-    PODRecord createPODRecord(PODRecord podRecord);
+    PODRecordDTO create(PODRecord podRecord);
 
-    List<PODRecord> getAllPODRecords();
+    List<PODRecordDTO> getAll();
 
-    PODRecord getPODRecordById(Long id);
+    PODRecordDTO getById(Long id);
 
-    PODRecord updatePODRecord(Long id, PODRecord podRecord);
+    PODRecordDTO update(Long id, PODRecord podRecord);
 
-    void deletePODRecord(Long id);
+    void delete(Long id);
 }

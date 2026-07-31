@@ -3,8 +3,10 @@ package com.example.backend.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.backend.dto.DeliveryOrderDTO;
 import com.example.backend.entity.DeliveryOrder;
 import com.example.backend.service.DeliveryOrderService;
 
@@ -19,29 +21,28 @@ public class DeliveryOrderController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public DeliveryOrder createDeliveryOrder(@RequestBody DeliveryOrder deliveryOrder) {
-        return deliveryOrderService.createDeliveryOrder(deliveryOrder);
+    public ResponseEntity<DeliveryOrderDTO> createDeliveryOrder(@RequestBody DeliveryOrder deliveryOrder) {
+        return new ResponseEntity<>(deliveryOrderService.create(deliveryOrder), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<DeliveryOrder> getAllDeliveryOrders() {
-        return deliveryOrderService.getAllDeliveryOrders();
+    public ResponseEntity<List<DeliveryOrderDTO>> getAllDeliveryOrders() {
+        return ResponseEntity.ok(deliveryOrderService.getAll());
     }
 
     @GetMapping("/{id}")
-    public DeliveryOrder getDeliveryOrderById(@PathVariable Long id) {
-        return deliveryOrderService.getDeliveryOrderById(id);
+    public ResponseEntity<DeliveryOrderDTO> getDeliveryOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(deliveryOrderService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public DeliveryOrder updateDeliveryOrder(@PathVariable Long id,
-                                             @RequestBody DeliveryOrder deliveryOrder) {
-        return deliveryOrderService.updateDeliveryOrder(id, deliveryOrder);
+    public ResponseEntity<DeliveryOrderDTO> updateDeliveryOrder(@PathVariable Long id,
+                                                                @RequestBody DeliveryOrder deliveryOrder) {
+        return ResponseEntity.ok(deliveryOrderService.update(id, deliveryOrder));
     }
 
     @DeleteMapping("/{id}")
     public void deleteDeliveryOrder(@PathVariable Long id) {
-        deliveryOrderService.deleteDeliveryOrder(id);
+        deliveryOrderService.delete(id);
     }
 }

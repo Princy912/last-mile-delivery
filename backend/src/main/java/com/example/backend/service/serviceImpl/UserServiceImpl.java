@@ -3,9 +3,11 @@ package com.example.backend.service.serviceImpl;
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
-
+import com.example.backend.dto.UserDTO;
+import com.example.backend.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,23 +20,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDTO createUser(User user) {
+
+    user.setCreatedAt(LocalDateTime.now());
+
+    User savedUser = userRepository.save(user);
+
+    return UserMapper.toDTO(savedUser);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+
+    return userRepository.findAll()
+            .stream()
+            .map(UserMapper::toDTO)
+            .toList();
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public UserDTO getUserById(Long id) {
+
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    return UserMapper.toDTO(user);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
+    public UserDTO updateUser(Long id, User user) {
 
     User existingUser = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -46,7 +60,9 @@ public class UserServiceImpl implements UserService {
     existingUser.setRole(user.getRole());
     existingUser.setIsActive(user.getIsActive());
 
-    return userRepository.save(existingUser);
+    User updatedUser = userRepository.save(existingUser);
+
+    return UserMapper.toDTO(updatedUser);
     }
 
     @Override
@@ -57,4 +73,4 @@ public class UserServiceImpl implements UserService {
 
       userRepository.delete(user);
     }
-}
+} 

@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.backend.dto.DeliveryAgentDTO;
 import com.example.backend.entity.DeliveryAgent;
 import com.example.backend.entity.User;
+import com.example.backend.mapper.DeliveryAgentMapper;
 import com.example.backend.repository.DeliveryAgentRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.DeliveryAgentService;
@@ -23,29 +25,34 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
     }
 
     @Override
-    public DeliveryAgent createDeliveryAgent(DeliveryAgent deliveryAgent) {
+    public DeliveryAgentDTO create(DeliveryAgent deliveryAgent) {
 
         User existingUser = userRepository.findById(deliveryAgent.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         deliveryAgent.setUser(existingUser);
 
-        return deliveryAgentRepository.save(deliveryAgent);
+        DeliveryAgent savedAgent = deliveryAgentRepository.save(deliveryAgent);
+        return DeliveryAgentMapper.toDTO(savedAgent);
     }
 
     @Override
-    public List<DeliveryAgent> getAllDeliveryAgents() {
-        return deliveryAgentRepository.findAll();
+    public List<DeliveryAgentDTO> getAll() {
+        return deliveryAgentRepository.findAll()
+                .stream()
+                .map(DeliveryAgentMapper::toDTO)
+                .toList();
     }
 
     @Override
-    public DeliveryAgent getDeliveryAgentById(Long id) {
-        return deliveryAgentRepository.findById(id)
+    public DeliveryAgentDTO getById(Long id) {
+        DeliveryAgent agent = deliveryAgentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+        return DeliveryAgentMapper.toDTO(agent);
     }
 
     @Override
-    public DeliveryAgent updateDeliveryAgent(Long id, DeliveryAgent deliveryAgent) {
+    public DeliveryAgentDTO update(Long id, DeliveryAgent deliveryAgent) {
 
         DeliveryAgent existingDeliveryAgent = deliveryAgentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
@@ -60,11 +67,12 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
         existingDeliveryAgent.setStatus(deliveryAgent.getStatus());
         existingDeliveryAgent.setRating(deliveryAgent.getRating());
 
-        return deliveryAgentRepository.save(existingDeliveryAgent);
+        DeliveryAgent updatedAgent = deliveryAgentRepository.save(existingDeliveryAgent);
+        return DeliveryAgentMapper.toDTO(updatedAgent);
     }
 
     @Override
-    public void deleteDeliveryAgent(Long id) {
+    public void delete(Long id) {
 
         DeliveryAgent deliveryAgent = deliveryAgentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
