@@ -7,6 +7,7 @@ import com.example.backend.mapper.PODRecordMapper;
 import com.example.backend.repository.DeliveryOrderRepository;
 import com.example.backend.repository.PODRecordRepository;
 import com.example.backend.service.PODRecordService;
+import com.example.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class PODRecordServiceImpl implements PODRecordService {
 
         DeliveryOrder order = deliveryOrderRepository.findById(
                 podRecord.getDeliveryOrder().getId())
-                .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
 
         podRecord.setDeliveryOrder(order);
         podRecord.setCapturedAt(LocalDateTime.now());
@@ -49,7 +50,7 @@ public class PODRecordServiceImpl implements PODRecordService {
     @Override
     public PODRecordDTO getById(Long id) {
         PODRecord podRecord = podRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("POD Record not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("POD Record not found"));
         return PODRecordMapper.toDTO(podRecord);
     }
 
@@ -57,11 +58,11 @@ public class PODRecordServiceImpl implements PODRecordService {
     public PODRecordDTO update(Long id, PODRecord podRecord) {
 
         PODRecord existing = podRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("POD Record not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("POD Record not found"));
 
         DeliveryOrder order = deliveryOrderRepository.findById(
                 podRecord.getDeliveryOrder().getId())
-                .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
 
         existing.setDeliveryOrder(order);
         existing.setPodType(podRecord.getPodType());

@@ -3,6 +3,7 @@ package com.example.backend.service.serviceImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.DeliveryOrderDTO;
@@ -36,10 +37,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     public DeliveryOrderDTO create(DeliveryOrder deliveryOrder) {
 
         User customer = userRepository.findById(deliveryOrder.getCustomer().getId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         DeliveryAgent agent = deliveryAgentRepository.findById(deliveryOrder.getDeliveryAgent().getId())
-                .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
 
         deliveryOrder.setCustomer(customer);
         deliveryOrder.setDeliveryAgent(agent);
@@ -60,7 +61,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     @Override
     public DeliveryOrderDTO getById(Long id) {
         DeliveryOrder order = deliveryOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
         return DeliveryOrderMapper.toDTO(order);
     }
 
@@ -68,13 +69,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     public DeliveryOrderDTO update(Long id, DeliveryOrder deliveryOrder) {
 
         DeliveryOrder existingOrder = deliveryOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
 
         User customer = userRepository.findById(deliveryOrder.getCustomer().getId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         DeliveryAgent agent = deliveryAgentRepository.findById(deliveryOrder.getDeliveryAgent().getId())
-                .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
 
         existingOrder.setCustomer(customer);
         existingOrder.setDeliveryAgent(agent);
@@ -94,7 +95,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     public void delete(Long id) {
 
         DeliveryOrder order = deliveryOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
 
         deliveryOrderRepository.delete(order);
     }

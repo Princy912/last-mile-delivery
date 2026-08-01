@@ -5,6 +5,7 @@ import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
 import com.example.backend.dto.UserDTO;
 import com.example.backend.mapper.UserMapper;
+import com.example.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
 
     User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
     return UserMapper.toDTO(user);
     }
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(Long id, User user) {
 
     User existingUser = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
     existingUser.setName(user.getName());
     existingUser.setEmail(user.getEmail());
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
 
       User user = userRepository.findById(id)
-              .orElseThrow(() -> new RuntimeException("User not found"));
+              .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
       userRepository.delete(user);
     }

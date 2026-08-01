@@ -2,6 +2,7 @@ package com.example.backend.service.serviceImpl;
 
 import java.util.List;
 
+import com.example.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.DeliveryAgentDTO;
@@ -28,7 +29,7 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
     public DeliveryAgentDTO create(DeliveryAgent deliveryAgent) {
 
         User existingUser = userRepository.findById(deliveryAgent.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         deliveryAgent.setUser(existingUser);
 
@@ -47,7 +48,7 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
     @Override
     public DeliveryAgentDTO getById(Long id) {
         DeliveryAgent agent = deliveryAgentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
         return DeliveryAgentMapper.toDTO(agent);
     }
 
@@ -55,10 +56,10 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
     public DeliveryAgentDTO update(Long id, DeliveryAgent deliveryAgent) {
 
         DeliveryAgent existingDeliveryAgent = deliveryAgentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
 
         User existingUser = userRepository.findById(deliveryAgent.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         existingDeliveryAgent.setUser(existingUser);
         existingDeliveryAgent.setVehicleType(deliveryAgent.getVehicleType());
@@ -75,7 +76,7 @@ public class DeliveryAgentServiceImpl implements DeliveryAgentService {
     public void delete(Long id) {
 
         DeliveryAgent deliveryAgent = deliveryAgentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Delivery Agent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
 
         deliveryAgentRepository.delete(deliveryAgent);
     }

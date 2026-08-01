@@ -33,6 +33,8 @@ public class DeliveryOrderController {
                 .deliveryAddress(dto.getDeliveryAddress())
                 .status(dto.getStatus())
                 .priority(dto.getPriority())
+                .estimatedDeliveryTime(dto.getEstimatedDeliveryTime())
+                .actualDeliveryTime(dto.getActualDeliveryTime())
                 .build();
         return new ResponseEntity<>(deliveryOrderService.create(deliveryOrder), HttpStatus.CREATED);
     }
