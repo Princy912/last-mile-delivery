@@ -1,35 +1,21 @@
-# Last Mile Delivery Route Optimisation Platform
+# 🚚 Last Mile Delivery Route Optimization Platform
 
-A Spring Boot REST API for managing a Last Mile Delivery Route Optimisation Platform. The system enables customers to place delivery orders, manages delivery agents, and records Proof of Delivery (POD).
-
-## Tech Stack
-
-### Backend
-- Java 21
-- Spring Boot 3
-- Spring Data JPA
-- Spring Web
-- Maven
-- Lombok
-
-### Database
-- MySQL
-
-### API Testing
-- Swagger UI
+A Spring Boot REST API for managing and optimizing last-mile delivery operations. The platform enables customers to place delivery orders, assign delivery agents, track deliveries, and maintain Proof of Delivery (POD) records.
 
 ---
 
-# Features Implemented
+# ✨ Features
 
-## User Management
+## 👤 User Management
+- Register User
+- Login User (JWT Authentication)
 - Create User
 - Get All Users
 - Get User by ID
 - Update User
 - Delete User
 
-Supports different user roles:
+Supported Roles:
 - CUSTOMER
 - DELIVERY_AGENT
 - DISPATCHER
@@ -37,32 +23,27 @@ Supports different user roles:
 
 ---
 
-## Delivery Agent Management
-
+## 🚴 Delivery Agent Management
 - Register Delivery Agent
 - View Delivery Agents
 - Update Delivery Agent
 - Delete Delivery Agent
 
-Each delivery agent includes:
+Agent Details:
 - Vehicle Type
 - Current Location
-- Availability Status
+- Status
 - Rating
 
 ---
 
-## Delivery Order Management
+## 📦 Delivery Order Management
+- Create Delivery Order
+- View Orders
+- Update Order
+- Delete Order
 
-Customers can:
-
-- Create Delivery Orders
-- Assign Delivery Agents
-- Update Delivery Status
-- Track Orders
-- Delete Orders
-
-Order Details:
+Order Information:
 - Customer
 - Delivery Agent
 - Tracking Number
@@ -75,12 +56,10 @@ Order Details:
 
 ---
 
-## Proof of Delivery (POD)
-
+## 📷 Proof of Delivery (POD)
 Supports:
-
-- Photo Proof
-- OTP Verification
+- Photo
+- OTP
 - Digital Signature
 
 Operations:
@@ -91,7 +70,55 @@ Operations:
 
 ---
 
-# Database Relationships
+# 🔐 Authentication
+
+Implemented using:
+
+- Spring Security
+- JWT (JSON Web Token)
+- BCrypt Password Encoding
+
+Authentication Flow:
+
+```
+Register
+      ↓
+Login
+      ↓
+Receive JWT Token
+      ↓
+Authorize in Swagger
+      ↓
+Access Protected APIs
+```
+
+Public Endpoints
+
+```
+/api/auth/register
+
+/api/auth/login
+
+/swagger-ui/**
+
+/v3/api-docs/**
+```
+
+Protected Endpoints
+
+```
+/api/users/**
+
+/api/delivery-agents/**
+
+/api/delivery-orders/**
+
+/api/pod-records/**
+```
+
+---
+
+# 🏗️ Project Architecture
 
 ```
 User
@@ -110,62 +137,91 @@ User
  DeliveryOrder
 ```
 
-Relationships:
+---
 
-- User → DeliveryAgent (One-to-One)
-- User → DeliveryOrder (One-to-Many)
-- DeliveryAgent → DeliveryOrder (One-to-Many)
-- DeliveryOrder → PODRecord (One-to-One)
+# 🔗 Entity Relationships
+
+| Relationship | Type |
+|--------------|------|
+| User → DeliveryAgent | One-to-One |
+| User → DeliveryOrder | One-to-Many |
+| DeliveryAgent → DeliveryOrder | One-to-Many |
+| DeliveryOrder → PODRecord | One-to-One |
 
 ---
 
-# REST API Modules
+# 🛠️ Technology Stack
 
-- User API
-- Delivery Agent API
-- Delivery Order API
-- POD Record API
+### Backend
+- Java 21
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- Spring Web
+- Maven
+- Lombok
 
-All modules support full CRUD operations.
+### Database
+- MySQL
+
+### Authentication
+- JWT
+- BCrypt
+
+### API Documentation
+- Swagger OpenAPI
+
+### Testing
+- Postman
+- Swagger UI
 
 ---
 
-# Project Structure
+# 📂 Project Structure
 
 ```
 src
- ├── controller
- ├── model
- ├── repository
- ├── service
- │      └── impl
- ├── enums
- └── BackendApplication.java
+└── main
+    └── java
+        └── com.example.backend
+            ├── auth
+            ├── config
+            ├── controller
+            ├── dto
+            ├── entity
+            ├── enums
+            ├── exception
+            ├── mapper
+            ├── repository
+            ├── security
+            ├── service
+            │     └── serviceImpl
+            └── BackendApplication.java
 ```
 
 ---
 
-# Running the Project
+# 🚀 Running the Project
 
-Clone the repository
+Clone Repository
 
 ```bash
 git clone <repository-url>
 ```
 
-Navigate to the backend folder
+Navigate
 
 ```bash
 cd backend
 ```
 
-Build the project
+Compile
 
 ```bash
 mvn clean compile
 ```
 
-Run the application
+Run
 
 ```bash
 mvn spring-boot:run
@@ -173,9 +229,7 @@ mvn spring-boot:run
 
 ---
 
-# Swagger
-
-After starting the application:
+# 📖 Swagger
 
 ```
 http://localhost:8080/swagger-ui/index.html
@@ -183,35 +237,91 @@ http://localhost:8080/swagger-ui/index.html
 
 ---
 
-# Current Progress
+# ✅ Completed Features
 
-- ✅ User CRUD
-- ✅ Delivery Agent CRUD
-- ✅ Delivery Order CRUD
-- ✅ POD Record CRUD
+### Project Setup
+- ✅ Spring Boot
+- ✅ Maven
+- ✅ MySQL
+- ✅ Swagger
+
+### Database
+- ✅ Entity Design
+- ✅ Relationships
+
+### CRUD APIs
+- ✅ User
+- ✅ Delivery Agent
+- ✅ Delivery Order
+- ✅ POD Record
+
+### DTO Layer
+- ✅ DTO Classes
+- ✅ Mapper Classes
+- ✅ DTO Integration
+
+### Validation
+- ✅ Bean Validation
+- ✅ @Valid
+- ✅ Validation Messages
+
+### Exception Handling
+- ✅ Global Exception Handler
+- ✅ Custom Exceptions
+
+### Authentication
+- ✅ Spring Security
+- ✅ JWT Authentication
+- ✅ User Registration
+- ✅ User Login
+- ✅ BCrypt Password Encoding
+- ✅ Protected APIs
+- ✅ Swagger Authorization
 
 ---
 
-# Upcoming Features
+# 🚧 Upcoming Features
 
-- DTO Layer
-- Validation
-- Global Exception Handling
-- JWT Authentication
-- Role-Based Authorization
-- Pagination & Filtering
+- Role-Based Authorization (ADMIN, CUSTOMER, DELIVERY_AGENT, DISPATCHER)
+- Automatic Tracking Number Generation
+- Order Status Workflow
+- Auto Assign Delivery Agent
+- Delivery Time Calculation
 - Search APIs
-- Route Optimisation
-- Delivery Tracking
+- Pagination
+- Sorting
+- File Upload (POD Images)
 - Dashboard & Analytics
+- React Frontend
 
 ---
 
-# Developed Using
+# 📌 API Modules
 
-- Spring Boot
+- Authentication API
+- User API
+- Delivery Agent API
+- Delivery Order API
+- POD Record API
+
+---
+
+# 👨‍💻 Built With
+
+- Java 21
+- Spring Boot 3
+- Spring Security
+- JWT
 - Spring Data JPA
 - MySQL
 - Maven
 - Lombok
 - Swagger OpenAPI
+
+---
+
+## ⭐ Current Progress
+
+**Backend Completion:** ~85%
+
+The project now includes a secure REST API with JWT authentication, CRUD operations, DTO architecture, validation, exception handling, and API documentation. The remaining work focuses on role-based authorization, business logic, advanced APIs, and the React frontend.
