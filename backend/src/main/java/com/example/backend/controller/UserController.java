@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.backend.dto.UserDTO;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+        User user = User.builder()
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .phone(userDTO.getPhone())
+                .password(userDTO.getPassword())
+                .role(userDTO.getRole())
+                .isActive(userDTO.getIsActive() != null ? userDTO.getIsActive() : true)
+                .build();
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
@@ -36,7 +45,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
-                                          @RequestBody User user) {
+                                              @Valid @RequestBody UserDTO userDTO) {
+        User user = User.builder()
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .phone(userDTO.getPhone())
+                .password(userDTO.getPassword())
+                .role(userDTO.getRole())
+                .isActive(userDTO.getIsActive() != null ? userDTO.getIsActive() : true)
+                .build();
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 

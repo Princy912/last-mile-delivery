@@ -2,10 +2,12 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.PODRecordDTO;
 import com.example.backend.entity.PODRecord;
+import com.example.backend.entity.DeliveryOrder;
 import com.example.backend.service.PODRecordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class PODRecordController {
     }
 
     @PostMapping
-    public ResponseEntity<PODRecordDTO> createPODRecord(@RequestBody PODRecord podRecord) {
+    public ResponseEntity<PODRecordDTO> createPODRecord(@Valid @RequestBody PODRecordDTO dto) {
+        PODRecord podRecord = new PODRecord();
+        podRecord.setDeliveryOrder(DeliveryOrder.builder().id(dto.getDeliveryOrderId()).build());
+        podRecord.setPodType(dto.getPodType());
+        podRecord.setPodData(dto.getPodData());
         return new ResponseEntity<>(
                 podRecordService.create(podRecord),
                 HttpStatus.CREATED);
@@ -38,7 +44,11 @@ public class PODRecordController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PODRecordDTO> updatePODRecord(@PathVariable Long id,
-                                                        @RequestBody PODRecord podRecord) {
+                                                        @Valid @RequestBody PODRecordDTO dto) {
+        PODRecord podRecord = new PODRecord();
+        podRecord.setDeliveryOrder(DeliveryOrder.builder().id(dto.getDeliveryOrderId()).build());
+        podRecord.setPodType(dto.getPodType());
+        podRecord.setPodData(dto.getPodData());
         return ResponseEntity.ok(
                 podRecordService.update(id, podRecord));
     }

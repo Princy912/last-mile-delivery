@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.backend.dto.DeliveryAgentDTO;
 import com.example.backend.entity.DeliveryAgent;
+import com.example.backend.entity.User;
 import com.example.backend.service.DeliveryAgentService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/delivery-agents")
@@ -21,7 +23,15 @@ public class DeliveryAgentController {
     }
 
     @PostMapping
-    public ResponseEntity<DeliveryAgentDTO> createDeliveryAgent(@RequestBody DeliveryAgent deliveryAgent) {
+    public ResponseEntity<DeliveryAgentDTO> createDeliveryAgent(@Valid @RequestBody DeliveryAgentDTO dto) {
+        DeliveryAgent deliveryAgent = DeliveryAgent.builder()
+                .user(User.builder().id(dto.getUserId()).build())
+                .vehicleType(dto.getVehicleType())
+                .currentLat(dto.getCurrentLat())
+                .currentLng(dto.getCurrentLng())
+                .status(dto.getStatus())
+                .rating(dto.getRating())
+                .build();
         return new ResponseEntity<>(deliveryAgentService.create(deliveryAgent), HttpStatus.CREATED);
     }
 
@@ -37,7 +47,15 @@ public class DeliveryAgentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DeliveryAgentDTO> updateDeliveryAgent(@PathVariable Long id,
-                                                                @RequestBody DeliveryAgent deliveryAgent) {
+                                                                @Valid @RequestBody DeliveryAgentDTO dto) {
+        DeliveryAgent deliveryAgent = DeliveryAgent.builder()
+                .user(User.builder().id(dto.getUserId()).build())
+                .vehicleType(dto.getVehicleType())
+                .currentLat(dto.getCurrentLat())
+                .currentLng(dto.getCurrentLng())
+                .status(dto.getStatus())
+                .rating(dto.getRating())
+                .build();
         return ResponseEntity.ok(deliveryAgentService.update(id, deliveryAgent));
     }
 

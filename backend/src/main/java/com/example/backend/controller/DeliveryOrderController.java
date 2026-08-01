@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.backend.dto.DeliveryOrderDTO;
 import com.example.backend.entity.DeliveryOrder;
+import com.example.backend.entity.User;
+import com.example.backend.entity.DeliveryAgent;
 import com.example.backend.service.DeliveryOrderService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/delivery-orders")
@@ -21,7 +24,16 @@ public class DeliveryOrderController {
     }
 
     @PostMapping
-    public ResponseEntity<DeliveryOrderDTO> createDeliveryOrder(@RequestBody DeliveryOrder deliveryOrder) {
+    public ResponseEntity<DeliveryOrderDTO> createDeliveryOrder(@Valid @RequestBody DeliveryOrderDTO dto) {
+        DeliveryOrder deliveryOrder = DeliveryOrder.builder()
+                .customer(User.builder().id(dto.getCustomerId()).build())
+                .deliveryAgent(DeliveryAgent.builder().id(dto.getDeliveryAgentId()).build())
+                .trackingNumber(dto.getTrackingNumber())
+                .pickupAddress(dto.getPickupAddress())
+                .deliveryAddress(dto.getDeliveryAddress())
+                .status(dto.getStatus())
+                .priority(dto.getPriority())
+                .build();
         return new ResponseEntity<>(deliveryOrderService.create(deliveryOrder), HttpStatus.CREATED);
     }
 
@@ -37,7 +49,18 @@ public class DeliveryOrderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DeliveryOrderDTO> updateDeliveryOrder(@PathVariable Long id,
-                                                                @RequestBody DeliveryOrder deliveryOrder) {
+                                                                @Valid @RequestBody DeliveryOrderDTO dto) {
+        DeliveryOrder deliveryOrder = DeliveryOrder.builder()
+                .customer(User.builder().id(dto.getCustomerId()).build())
+                .deliveryAgent(DeliveryAgent.builder().id(dto.getDeliveryAgentId()).build())
+                .trackingNumber(dto.getTrackingNumber())
+                .pickupAddress(dto.getPickupAddress())
+                .deliveryAddress(dto.getDeliveryAddress())
+                .status(dto.getStatus())
+                .priority(dto.getPriority())
+                .estimatedDeliveryTime(dto.getEstimatedDeliveryTime())
+                .actualDeliveryTime(dto.getActualDeliveryTime())
+                .build();
         return ResponseEntity.ok(deliveryOrderService.update(id, deliveryOrder));
     }
 
