@@ -17,21 +17,22 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now().toString());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
 
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(FieldError::getDefaultMessage)
-                .collect(Collectors.toList());
+    List<String> errors = ex.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .toList();
 
-        response.put("errors", errors);
+    ErrorResponse errorResponse = new ErrorResponse(
+            LocalDateTime.now(),
+            HttpStatus.BAD_REQUEST.value(),
+            errors
+    );
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+}
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {

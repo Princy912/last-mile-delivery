@@ -7,5 +7,9 @@ public enum Role {
 
   DELIVERY_AGENT,
   
-  CUSTOMER
+  CUSTOMER,
+
+  OPERATIONS_MANAGER,
+
+  FINANCE
 }
