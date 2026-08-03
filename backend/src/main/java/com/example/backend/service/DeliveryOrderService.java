@@ -16,4 +16,10 @@ public interface DeliveryOrderService {
     DeliveryOrderDTO update(Long id, DeliveryOrder deliveryOrder);
 
     void delete(Long id);
+
+    List<DeliveryOrderDTO> getUnassignedOrders();
+
+    DeliveryOrderDTO assignOrder(Long id, Long deliveryAgentId);
+
+    DeliveryOrderDTO updateOrderStatus(Long id, com.example.backend.enums.OrderStatus status);
 }

@@ -71,10 +71,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        userRepository.delete(user);
+    }
 
-      User user = userRepository.findById(id)
-              .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-      userRepository.delete(user);
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return UserMapper.toDTO(user);
     }
 } 

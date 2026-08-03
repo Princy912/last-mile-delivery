@@ -3,11 +3,14 @@ package com.example.backend.service.serviceImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.backend.enums.OrderStatus;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.DuplicateResourceException;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.DeliveryOrderDTO;
+import com.example.backend.dto.DeliveryStatusHistoryDTO;
+import com.example.backend.service.DeliveryStatusHistoryService;
 import com.example.backend.entity.DeliveryAgent;
 import com.example.backend.entity.DeliveryOrder;
 import com.example.backend.entity.User;
@@ -23,15 +26,18 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
     private final DeliveryOrderRepository deliveryOrderRepository;
     private final UserRepository userRepository;
     private final DeliveryAgentRepository deliveryAgentRepository;
+    private final DeliveryStatusHistoryService deliveryStatusHistoryService;
 
     public DeliveryOrderServiceImpl(
             DeliveryOrderRepository deliveryOrderRepository,
             UserRepository userRepository,
-            DeliveryAgentRepository deliveryAgentRepository) {
+            DeliveryAgentRepository deliveryAgentRepository,
+            DeliveryStatusHistoryService deliveryStatusHistoryService) {
 
         this.deliveryOrderRepository = deliveryOrderRepository;
         this.userRepository = userRepository;
         this.deliveryAgentRepository = deliveryAgentRepository;
+        this.deliveryStatusHistoryService = deliveryStatusHistoryService;
     }
 
     @Override
@@ -104,10 +110,53 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
     @Override
     public void delete(Long id) {
+        DeliveryOrder order = deliveryOrderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
+        deliveryOrderRepository.delete(order);
+    }
 
+    @Override
+    public List<DeliveryOrderDTO> getUnassignedOrders() {
+        return deliveryOrderRepository.findByDeliveryAgentIsNull()
+                .stream()
+                .map(DeliveryOrderMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public DeliveryOrderDTO assignOrder(Long id, Long deliveryAgentId) {
+        DeliveryOrder order = deliveryOrderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
+        DeliveryAgent agent = deliveryAgentRepository.findById(deliveryAgentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Delivery Agent not found"));
+
+        order.setDeliveryAgent(agent);
+        order.setStatus(OrderStatus.ASSIGNED);
+
+        DeliveryOrder saved = deliveryOrderRepository.save(order);
+        return DeliveryOrderMapper.toDTO(saved);
+    }
+
+    @Override
+    public DeliveryOrderDTO updateOrderStatus(Long id, OrderStatus status) {
         DeliveryOrder order = deliveryOrderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
 
-        deliveryOrderRepository.delete(order);
+        order.setStatus(status);
+        if (status == OrderStatus.DELIVERED) {
+            order.setActualDeliveryTime(LocalDateTime.now());
+        }
+
+        DeliveryOrder saved = deliveryOrderRepository.save(order);
+
+        DeliveryStatusHistoryDTO historyDto = DeliveryStatusHistoryDTO.builder()
+                .deliveryOrderId(saved.getId())
+                .status(status)
+                .comments("Status updated to " + status)
+                .updatedTime(LocalDateTime.now())
+                .build();
+        deliveryStatusHistoryService.create(historyDto);
+
+        return DeliveryOrderMapper.toDTO(saved);
     }
 }
