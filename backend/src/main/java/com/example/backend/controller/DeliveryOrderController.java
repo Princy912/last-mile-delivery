@@ -13,6 +13,8 @@ import com.example.backend.entity.DeliveryAgent;
 import com.example.backend.service.DeliveryOrderService;
 import jakarta.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/delivery-orders")
 public class DeliveryOrderController {
@@ -24,6 +26,7 @@ public class DeliveryOrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER', 'CUSTOMER')")
     public ResponseEntity<DeliveryOrderDTO> createDeliveryOrder(@Valid @RequestBody DeliveryOrderDTO dto) {
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
                 .customer(User.builder().id(dto.getCustomerId()).build())
@@ -40,16 +43,20 @@ public class DeliveryOrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER')")
     public ResponseEntity<List<DeliveryOrderDTO>> getAllDeliveryOrders() {
         return ResponseEntity.ok(deliveryOrderService.getAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER', 'CUSTOMER', 'DELIVERY_AGENT')")
     public ResponseEntity<DeliveryOrderDTO> getDeliveryOrderById(@PathVariable Long id) {
+        // TODO: Implement ownership/assignment validation (CUSTOMER can only read own orders, DELIVERY_AGENT can only read assigned orders)
         return ResponseEntity.ok(deliveryOrderService.getById(id));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER')")
     public ResponseEntity<DeliveryOrderDTO> updateDeliveryOrder(@PathVariable Long id,
                                                                 @Valid @RequestBody DeliveryOrderDTO dto) {
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
@@ -67,6 +74,7 @@ public class DeliveryOrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDeliveryOrder(@PathVariable Long id) {
         deliveryOrderService.delete(id);
     }

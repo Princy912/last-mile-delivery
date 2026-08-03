@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/route-stops")
 public class RouteStopController {
@@ -20,36 +22,43 @@ public class RouteStopController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<RouteStopDTO> create(@Valid @RequestBody RouteStopDTO dto) {
         return new ResponseEntity<>(routeStopService.create(dto), HttpStatus.CREATED);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<List<RouteStopDTO>> getAll() {
         return ResponseEntity.ok(routeStopService.getAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<RouteStopDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(routeStopService.getById(id));
     }
 
     @GetMapping("/route/{routeId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<List<RouteStopDTO>> getByRouteId(@PathVariable Long routeId) {
         return ResponseEntity.ok(routeStopService.getByRouteId(routeId));
     }
 
     @GetMapping("/order/{orderId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<RouteStopDTO> getByDeliveryOrderId(@PathVariable Long orderId) {
         return ResponseEntity.ok(routeStopService.getByDeliveryOrderId(orderId));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER', 'OPERATIONS_MANAGER')")
     public ResponseEntity<RouteStopDTO> update(@PathVariable Long id, @Valid @RequestBody RouteStopDTO dto) {
         return ResponseEntity.ok(routeStopService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         routeStopService.delete(id);
         return ResponseEntity.noContent().build();

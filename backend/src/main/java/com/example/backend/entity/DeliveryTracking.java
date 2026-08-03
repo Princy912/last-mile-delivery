@@ -2,6 +2,7 @@ package com.example.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.example.backend.enums.TrackingStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

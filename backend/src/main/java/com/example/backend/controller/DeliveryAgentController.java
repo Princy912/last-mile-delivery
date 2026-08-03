@@ -12,6 +12,8 @@ import com.example.backend.entity.User;
 import com.example.backend.service.DeliveryAgentService;
 import jakarta.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/delivery-agents")
 public class DeliveryAgentController {
@@ -23,6 +25,7 @@ public class DeliveryAgentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER')")
     public ResponseEntity<DeliveryAgentDTO> createDeliveryAgent(@Valid @RequestBody DeliveryAgentDTO dto) {
         DeliveryAgent deliveryAgent = DeliveryAgent.builder()
                 .user(User.builder().id(dto.getUserId()).build())
@@ -36,16 +39,20 @@ public class DeliveryAgentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER')")
     public ResponseEntity<List<DeliveryAgentDTO>> getAllDeliveryAgents() {
         return ResponseEntity.ok(deliveryAgentService.getAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER', 'DISPATCHER', 'DELIVERY_AGENT')")
     public ResponseEntity<DeliveryAgentDTO> getDeliveryAgentById(@PathVariable Long id) {
+        // TODO: Implement ownership validation to ensure delivery agent can only read their own profile
         return ResponseEntity.ok(deliveryAgentService.getById(id));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATIONS_MANAGER')")
     public ResponseEntity<DeliveryAgentDTO> updateDeliveryAgent(@PathVariable Long id,
                                                                 @Valid @RequestBody DeliveryAgentDTO dto) {
         DeliveryAgent deliveryAgent = DeliveryAgent.builder()
@@ -60,6 +67,7 @@ public class DeliveryAgentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDeliveryAgent(@PathVariable Long id) {
         deliveryAgentService.delete(id);
     }

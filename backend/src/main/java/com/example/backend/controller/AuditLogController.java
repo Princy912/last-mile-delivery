@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/audit-logs")
+@PreAuthorize("hasRole('ADMIN')")
 public class AuditLogController {
 
     private final AuditLogService auditLogService;

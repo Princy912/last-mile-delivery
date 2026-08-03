@@ -2,6 +2,7 @@ package com.example.backend.mapper;
 
 import com.example.backend.dto.DeliveryTrackingDTO;
 import com.example.backend.entity.DeliveryTracking;
+import com.example.backend.enums.TrackingStatus;
 
 public class DeliveryTrackingMapper {
 

@@ -10,8 +10,11 @@ import com.example.backend.dto.UserDTO;
 import jakarta.validation.Valid;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/users")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     private final UserService userService;

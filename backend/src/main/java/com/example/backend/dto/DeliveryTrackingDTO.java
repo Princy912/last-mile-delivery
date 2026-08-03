@@ -6,6 +6,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.backend.enums.TrackingStatus;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,5 +30,5 @@ public class DeliveryTrackingDTO {
 
     private LocalDateTime updatedTime;
 
-    private String status;
+    private TrackingStatus status;
 }
