@@ -40,6 +40,7 @@ public class DeliveryOrderDTO {
     @NotBlank
     private String priority;
 
+    @Future(message = "Estimated delivery date must be in the future.")
     private LocalDateTime estimatedDeliveryTime;
 
     private LocalDateTime actualDeliveryTime;

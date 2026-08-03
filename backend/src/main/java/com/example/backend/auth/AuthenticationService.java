@@ -37,7 +37,7 @@ public class AuthenticationService {
 
     public Map<String, String> register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new DuplicateResourceException("Email already exists");
+            throw new DuplicateResourceException("Email is already registered.");
         }
         User user = User.builder()
                 .name(request.getName())

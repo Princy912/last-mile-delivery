@@ -6,6 +6,7 @@ import com.example.backend.service.UserService;
 import com.example.backend.dto.UserDTO;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.exception.ResourceNotFoundException;
+import com.example.backend.exception.DuplicateResourceException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,48 +23,50 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(User user) {
-
-    user.setCreatedAt(LocalDateTime.now());
-
-    User savedUser = userRepository.save(user);
-
-    return UserMapper.toDTO(savedUser);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new DuplicateResourceException("Email is already registered.");
+        }
+        user.setCreatedAt(LocalDateTime.now());
+        User savedUser = userRepository.save(user);
+        return UserMapper.toDTO(savedUser);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-
-    return userRepository.findAll()
-            .stream()
-            .map(UserMapper::toDTO)
-            .toList();
+        return userRepository.findAll()
+                .stream()
+                .map(UserMapper::toDTO)
+                .toList();
     }
 
     @Override
     public UserDTO getUserById(Long id) {
-
-    User user = userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-    return UserMapper.toDTO(user);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return UserMapper.toDTO(user);
     }
 
     @Override
     public UserDTO updateUser(Long id, User user) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-    User existingUser = userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        userRepository.findByEmail(user.getEmail())
+                .ifPresent(u -> {
+                    if (!u.getId().equals(id)) {
+                        throw new DuplicateResourceException("Email is already registered.");
+                    }
+                });
 
-    existingUser.setName(user.getName());
-    existingUser.setEmail(user.getEmail());
-    existingUser.setPhone(user.getPhone());
-    existingUser.setPassword(user.getPassword());
-    existingUser.setRole(user.getRole());
-    existingUser.setIsActive(user.getIsActive());
+        existingUser.setName(user.getName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhone(user.getPhone());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setRole(user.getRole());
+        existingUser.setIsActive(user.getIsActive());
 
-    User updatedUser = userRepository.save(existingUser);
-
-    return UserMapper.toDTO(updatedUser);
+        User updatedUser = userRepository.save(existingUser);
+        return UserMapper.toDTO(updatedUser);
     }
 
     @Override

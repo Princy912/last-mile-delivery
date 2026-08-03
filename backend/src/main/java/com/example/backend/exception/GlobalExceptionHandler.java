@@ -181,11 +181,11 @@ public class GlobalExceptionHandler {
         }
         
         if (msg.contains("email") || msg.contains("Email")) {
-            return "Email already exists";
+            return "Email is already registered.";
         } else if (msg.contains("phone") || msg.contains("Phone")) {
             return "Phone number already exists";
         } else if (msg.contains("tracking_number") || msg.contains("trackingNumber") || msg.contains("tracking")) {
-            return "Tracking number already exists";
+            return "Tracking number already exists.";
         }
         
         return "Resource already exists or data conflict occurred";

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.backend.exception.ResourceNotFoundException;
+import com.example.backend.exception.DuplicateResourceException;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.DeliveryOrderDTO;
@@ -35,6 +36,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
     @Override
     public DeliveryOrderDTO create(DeliveryOrder deliveryOrder) {
+        if (deliveryOrderRepository.existsByTrackingNumber(deliveryOrder.getTrackingNumber())) {
+            throw new DuplicateResourceException("Tracking number already exists.");
+        }
 
         User customer = userRepository.findById(deliveryOrder.getCustomer().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
@@ -70,6 +74,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
         DeliveryOrder existingOrder = deliveryOrderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Delivery Order not found"));
+
+        deliveryOrderRepository.findByTrackingNumber(deliveryOrder.getTrackingNumber())
+                .ifPresent(existing -> {
+                    if (!existing.getId().equals(id)) {
+                        throw new DuplicateResourceException("Tracking number already exists.");
+                    }
+                });
 
         User customer = userRepository.findById(deliveryOrder.getCustomer().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
