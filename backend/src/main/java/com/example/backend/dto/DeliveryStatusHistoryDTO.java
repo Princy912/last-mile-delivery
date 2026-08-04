@@ -13,20 +13,20 @@ import java.time.LocalDateTime;
 @Builder
 public class DeliveryStatusHistoryDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
     @NotNull
     @Schema(example = "DELIVERED")
     private OrderStatus status;
 
-    @Schema(example = "Updated order status to DELIVERED")
+    @Schema(example = "string")
     private String comments;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime updatedTime;
 }

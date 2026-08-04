@@ -13,10 +13,10 @@ public class AuthenticationRequest {
 
     @NotBlank
     @Email
-    @Schema(example = "john.doe@example.com")
+    @Schema(example = "string")
     private String email;
 
     @NotBlank
-    @Schema(example = "SecurePass123!")
+    @Schema(example = "string")
     private String password;
 }

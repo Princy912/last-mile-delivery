@@ -16,19 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderTrackingResponse {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "10")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long orderId;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "TRANSIT")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String currentStatus;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "37.7749000")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private BigDecimal latitude;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "-122.4194000")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private BigDecimal longitude;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime lastUpdated;
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
@@ -40,16 +40,16 @@ public class OrderTrackingResponse {
     @AllArgsConstructor
     public static class TrackingHistoryItem {
 
-        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "TRANSIT")
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
         private String status;
 
-        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "37.7749000")
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
         private BigDecimal latitude;
 
-        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "-122.4194000")
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
         private BigDecimal longitude;
 
-        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
         private LocalDateTime updatedTime;
     }
 }

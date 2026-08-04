@@ -94,7 +94,7 @@ public class OrderController {
     @AllArgsConstructor
     public static class AssignOrderRequest {
         @NotNull(message = "deliveryAgentId must not be null")
-        @Schema(example = "5")
+        @Schema(example = "0")
         private Long deliveryAgentId;
     }
 

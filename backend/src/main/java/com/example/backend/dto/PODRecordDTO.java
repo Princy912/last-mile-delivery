@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @Builder
 public class PODRecordDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "TRK-987654321")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String trackingNumber;
 
     @NotNull
@@ -29,9 +29,9 @@ public class PODRecordDTO {
     private PodType podType;
 
     @NotBlank
-    @Schema(example = "data:image/png;base64,iVBORw0KGgo...")
+    @Schema(example = "string")
     private String podData;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime capturedAt;
 }

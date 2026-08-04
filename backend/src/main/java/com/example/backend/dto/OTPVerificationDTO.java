@@ -14,25 +14,25 @@ import java.time.LocalDateTime;
 @Builder
 public class OTPVerificationDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
     @NotBlank
     @Size(min = 4, max = 6)
-    @Schema(example = "123456")
+    @Schema(example = "string")
     private String otpCode;
 
-    @Schema(example = "false")
+    @Schema(example = "true")
     private Boolean isVerified;
 
     @NotNull
-    @Schema(example = "2026-08-03T21:20:00")
+    @Schema(example = "2026-01-01T10:00:00")
     private LocalDateTime expiredAt;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime verifiedAt;
 }

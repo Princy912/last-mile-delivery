@@ -14,24 +14,24 @@ import java.time.LocalDateTime;
 @Builder
 public class AgentPayoutDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "1")
+    @Schema(example = "0")
     private Long deliveryAgentId;
 
     @NotNull
-    @Schema(example = "150.00")
+    @Schema(example = "0")
     private BigDecimal amount;
 
     @NotNull
     @Schema(example = "PENDING")
     private PayoutStatus status;
 
-    @Schema(example = "TXN-987654321")
+    @Schema(example = "string")
     private String transactionReference;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime paidAt;
 }

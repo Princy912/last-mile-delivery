@@ -11,34 +11,34 @@ import lombok.*;
 @Builder
 public class DeliveryAddressDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "2")
+    @Schema(example = "0")
     private Long userId;
 
     @NotBlank
-    @Schema(example = "123 Main St")
+    @Schema(example = "string")
     private String addressLine1;
 
-    @Schema(example = "Apt 4B")
+    @Schema(example = "string")
     private String addressLine2;
 
     @NotBlank
-    @Schema(example = "San Francisco")
+    @Schema(example = "string")
     private String city;
 
     @NotBlank
-    @Schema(example = "CA")
+    @Schema(example = "string")
     private String state;
 
     @NotBlank
-    @Schema(example = "94107")
+    @Schema(example = "string")
     private String postalCode;
 
     @NotBlank
-    @Schema(example = "USA")
+    @Schema(example = "string")
     private String country;
 
     @Schema(example = "true")

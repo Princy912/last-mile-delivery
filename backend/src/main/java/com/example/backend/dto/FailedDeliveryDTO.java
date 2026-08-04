@@ -13,20 +13,20 @@ import java.time.LocalDateTime;
 @Builder
 public class FailedDeliveryDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
     @NotBlank
-    @Schema(example = "Customer not available")
+    @Schema(example = "string")
     private String reason;
 
-    @Schema(example = "Called customer multiple times, no answer")
+    @Schema(example = "string")
     private String notes;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime attemptedTime;
 }

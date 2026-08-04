@@ -14,26 +14,26 @@ import lombok.*;
 @Builder
 public class DeliveryAgentDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "3")
+    @Schema(example = "0")
     private Long userId;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "Alex Agent")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String userName;
 
     @NotBlank
-    @Schema(example = "BIKE")
+    @Schema(example = "string")
     private String vehicleType;
 
     @NotNull
-    @Schema(example = "37.7749000")
+    @Schema(example = "0")
     private BigDecimal currentLat;
 
     @NotNull
-    @Schema(example = "-122.4194000")
+    @Schema(example = "0")
     private BigDecimal currentLng;
 
     @NotNull
@@ -42,6 +42,6 @@ public class DeliveryAgentDTO {
 
     @DecimalMin("0.0")
     @DecimalMax("5.0")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "4.8")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private BigDecimal rating;
 }

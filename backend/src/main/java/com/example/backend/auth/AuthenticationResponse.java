@@ -9,15 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "eyJhbGciOiJIUzI1NiJ9...")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String token;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "Bearer")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String type;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "john.doe@example.com")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String email;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "CUSTOMER")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String role;
 }

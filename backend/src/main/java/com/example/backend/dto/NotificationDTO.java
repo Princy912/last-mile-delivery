@@ -13,27 +13,27 @@ import java.time.LocalDateTime;
 @Builder
 public class NotificationDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "2")
+    @Schema(example = "0")
     private Long userId;
 
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
     @NotBlank
-    @Schema(example = "Order Dispatched")
+    @Schema(example = "string")
     private String title;
 
     @NotBlank
-    @Schema(example = "Your order TRK-987654321 has been dispatched.")
+    @Schema(example = "string")
     private String message;
 
-    @Schema(example = "false")
+    @Schema(example = "true")
     private Boolean isRead;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime createdAt;
 }

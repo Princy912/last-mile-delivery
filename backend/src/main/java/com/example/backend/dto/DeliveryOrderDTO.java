@@ -14,33 +14,33 @@ import java.time.LocalDateTime;
 @Builder
 public class DeliveryOrderDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "2")
+    @Schema(example = "0")
     private Long customerId;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "John Customer")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String customerName;
 
     @NotNull
-    @Schema(example = "1")
+    @Schema(example = "0")
     private Long deliveryAgentId;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "Alex Agent")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String deliveryAgentName;
 
     @NotBlank
-    @Schema(example = "TRK-987654321")
+    @Schema(example = "string")
     private String trackingNumber;
 
     @NotBlank
-    @Schema(example = "123 Pickup Ln")
+    @Schema(example = "string")
     private String pickupAddress;
 
     @NotBlank
-    @Schema(example = "456 Delivery Rd")
+    @Schema(example = "string")
     private String deliveryAddress;
 
     @NotNull
@@ -48,16 +48,16 @@ public class DeliveryOrderDTO {
     private OrderStatus status;
 
     @NotBlank
-    @Schema(example = "HIGH")
+    @Schema(example = "string")
     private String priority;
 
     @Future(message = "Estimated delivery date must be in the future.")
-    @Schema(example = "2026-08-04T12:00:00")
+    @Schema(example = "2026-01-01T10:00:00")
     private LocalDateTime estimatedDeliveryTime;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime actualDeliveryTime;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime createdAt;
 }

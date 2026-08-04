@@ -14,24 +14,24 @@ import java.time.LocalDateTime;
 @Builder
 public class ReturnRecordDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(example = "10")
+    @Schema(example = "0")
     private Long deliveryOrderId;
 
     @NotBlank
-    @Schema(example = "Item damaged during transit")
+    @Schema(example = "string")
     private String reason;
 
     @NotNull
     @Schema(example = "PENDING")
     private ReturnStatus status;
 
-    @Schema(example = "false")
+    @Schema(example = "true")
     private Boolean refundProcessed;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime requestedAt;
 }

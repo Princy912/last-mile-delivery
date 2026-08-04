@@ -15,21 +15,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LiveAgentDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "Alex Agent")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String agentName;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "37.7749000")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private BigDecimal latitude;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "-122.4194000")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private BigDecimal longitude;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "BIKE")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String vehicleType;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "AVAILABLE")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String currentStatus;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime lastUpdated;
 }

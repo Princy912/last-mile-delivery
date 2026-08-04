@@ -13,22 +13,22 @@ public class RegisterRequest {
 
     @NotBlank(message = "Name is required")
     @Pattern(regexp = "^[A-Za-z ]{2,100}$", message = "Name must contain only alphabets and spaces")
-    @Schema(example = "John Doe")
+    @Schema(example = "string")
     private String name;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
-    @Schema(example = "john.doe@example.com")
+    @Schema(example = "string")
     private String email;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must contain exactly 10 digits")
-    @Schema(example = "9876543210")
+    @Schema(example = "string")
     private String phone;
 
     @NotBlank(message = "Password is required")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,50}$", message = "Password must contain uppercase, lowercase, number and special character.")
-    @Schema(example = "SecurePass123!")
+    @Schema(example = "string")
     private String password;
 
     @NotNull

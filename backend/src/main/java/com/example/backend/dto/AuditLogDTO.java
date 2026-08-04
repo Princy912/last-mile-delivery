@@ -13,23 +13,23 @@ import java.time.LocalDateTime;
 @Builder
 public class AuditLogDTO {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long id;
 
     @NotNull
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "0")
     private Long userId;
 
     @NotBlank
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "UPDATE_ORDER_STATUS")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String action;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "Updated order 10 status to TRANSIT")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String details;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "192.168.1.5")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "string")
     private String ipAddress;
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-08-03T21:10:00")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "2026-01-01T10:00:00")
     private LocalDateTime timestamp;
 }
